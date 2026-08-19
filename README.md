@@ -63,14 +63,20 @@ Veja `exemplos/` para dois casos completos narrados — um de cada tipo.
 ## Prompts prontos para copiar e colar
 
 Não é obrigatório usar exatamente estes textos — uma frase natural também aciona a
-skill certa. Mas, para começar rápido, copie o bloco da skill que precisa, troque o
-que está entre `[colchetes]` e cole direto na janela do agente.
+skill certa. Mas cada bloco já abre citando o nome da skill (`Skill:
+<nome>`) — isso torna o roteamento determinístico mesmo colando só o prompt,
+sem o resto desta página, e funciona tanto em harnesses com carregamento
+automático de skill (Claude Code, Codex, Cursor) quanto colado como instrução
+manual em ChatGPT/Claude.ai. Para começar rápido: copie o bloco da skill que
+precisa, troque o que está entre `[colchetes]` e cole direto na janela do agente.
 
 ### Carregar (ou atualizar) o contexto de um sistema
 
 Aciona `carregar-contexto-sistema`.
 
 ```
+Skill: carregar-contexto-sistema (.agents/skills/carregar-contexto-sistema/SKILL.md)
+
 Quero carregar (ou atualizar) o contexto do sistema abaixo neste agente.
 
 Sistema: [nome do sistema, ex.: SIGRH]
@@ -97,6 +103,8 @@ Aciona `refinar-requisito-customizacao`. Use quando o pedido é sobre algo que o
 sistema **ainda não faz**.
 
 ```
+Skill: refinar-requisito-customizacao (.agents/skills/refinar-requisito-customizacao/SKILL.md)
+
 Quero refinar o pedido abaixo como REQUISITO DE CUSTOMIZAÇÃO — é algo que o
 sistema ainda não faz hoje.
 
@@ -122,6 +130,8 @@ Aciona `refinar-tarefa-sustentacao`. Use quando o relato é sobre algo que **já
 existe** e não está se comportando como deveria.
 
 ```
+Skill: refinar-tarefa-sustentacao (.agents/skills/refinar-tarefa-sustentacao/SKILL.md)
+
 Quero refinar o relato abaixo como TAREFA DE SUSTENTAÇÃO — é algo que já deveria
 funcionar de um jeito e não está.
 
@@ -148,6 +158,8 @@ Aciona `exportar-pdf-tarefa`. Use depois que o `.md` final já existir em
 `tarefas/<sistema>/`.
 
 ```
+Skill: exportar-pdf-tarefa (.agents/skills/exportar-pdf-tarefa/SKILL.md)
+
 Já salvamos o documento final da tarefa abaixo em .md. Quero também a versão em
 PDF, ao lado do arquivo original, com o mesmo nome.
 

@@ -33,6 +33,10 @@
 > Se não estiver claro qual das duas primeiras skills usar, pergunte ao analista:
 > *"isso é um pedido de algo que ainda não existe, ou um problema com algo que já
 > deveria funcionar?"* Exemplos de prompts para cada skill: seção 4.
+>
+> Se o prompt do analista citar explicitamente `Skill: <nome>` (como nos modelos
+> prontos do `README.md`), carregue essa skill diretamente — não precisa inferir
+> pela descrição do pedido nesse caso.
 
 ---
 
