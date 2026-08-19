@@ -7,9 +7,10 @@ sustentação), veja `exemplo-sustentacao-sigrh.md`.
 
 Serve para treinar o fluxo antes de usar com um caso real do seu time. Neste
 exemplo, o sistema `sigrh-ap` ainda não tem `CONTEXTO.md` configurado em
-`contextos/` — por isso as perguntas do agente são genéricas, sem nome de tela ou
-módulo real. Com contexto carregado (via skill `carregar-contexto-sistema`), as
-perguntas tendem a ficar mais específicas.
+`contextos/` — por isso o agente atua como analista de requisitos generalista,
+sem nome de tela ou módulo real. Com contexto carregado (via skill
+`carregar-contexto-sistema`), as perguntas tendem a ficar mais específicas para
+o sistema.
 
 ---
 
@@ -19,10 +20,10 @@ O analista abre o harness de IA de sua escolha na pasta do projeto e cola o pedi
 Antes de responder, a skill `refinar-requisito-customizacao` pergunta:
 
 > Antes de começar: a qual sistema esse pedido pertence? Não encontrei nenhuma pasta
-> em `contextos/` ainda — posso seguir mesmo assim, com perguntas mais genéricas, ou
+> em `contextos/` ainda — posso seguir normalmente como analista generalista, ou
 > prefere que a gente carregue o contexto desse sistema primeiro?
 
-> **Analista:** Segue genérico mesmo por enquanto. É o SIGRH-AP.
+> **Analista:** Segue como generalista mesmo por enquanto. É o SIGRH-AP.
 
 O agente registra que esta sessão trata do sistema `sigrh-ap` e segue.
 
@@ -195,8 +196,8 @@ Critérios de aceite:
 ```
 
 O agente salva esse conteúdo em
-`tarefas/sigrh-ap/customizacao-multiplos-comprovantes-residencia.md`, confirmando o
-nome do arquivo com o analista antes de gravar.
+`tarefas/sigrh-ap/customizacao-multiplos-comprovantes-residencia/customizacao-multiplos-comprovantes-residencia.md`,
+confirmando o nome da subpasta e do arquivo com o analista antes de gravar.
 
 ---
 

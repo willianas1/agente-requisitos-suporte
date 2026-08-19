@@ -99,7 +99,8 @@ como causa confirmada:
 
 ## 1. Contexto
 Relatado pelo setor de protocolo, via chamado, nesta semana. Sistema: SIGRH-AP
-(contexto de sistema não carregado nesta sessão — perguntas genéricas).
+(contexto de sistema não carregado nesta sessão — agente atuou como analista de
+suporte generalista).
 
 ## 2. Sintoma relatado
 "A tela de acompanhamento de solicitações mostra um status diferente do relatório
@@ -158,8 +159,8 @@ permissão entre tela e relatório nos 2 casos testados.
 ```
 
 O agente salva esse conteúdo em
-`tarefas/sigrh-ap/sustentacao-divergencia-status-tela-relatorio.md`, confirmando o
-nome do arquivo com o analista antes de gravar.
+`tarefas/sigrh-ap/sustentacao-divergencia-status-tela-relatorio/sustentacao-divergencia-status-tela-relatorio.md`,
+confirmando o nome da subpasta e do arquivo com o analista antes de gravar.
 
 ---
 

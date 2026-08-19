@@ -1,6 +1,6 @@
 ---
 name: exportar-pdf-tarefa
-description: Gera a versão em PDF de um documento de tarefa já refinado e salvo em tarefas/<sistema>/*.md (requisito de customização ou tarefa de sustentação). Use depois que o documento final já foi salvo em .md pela skill de refinamento correspondente e o analista confirmar explicitamente que quer também um PDF. Também serve para gerar o PDF de um documento salvo anteriormente, quando pedido depois, fora do fluxo de refinamento. Nunca gera PDF de um documento ainda incompleto ou não aprovado pelo analista.
+description: Gera a versão em PDF de um documento de tarefa já refinado e salvo em tarefas/<sistema>/<tipo>-<slug>/*.md (requisito de customização ou tarefa de sustentação). Use depois que o documento final já foi salvo em .md pela skill de refinamento correspondente e o analista confirmar explicitamente que quer também um PDF. Também serve para gerar o PDF de um documento salvo anteriormente, quando pedido depois, fora do fluxo de refinamento. Nunca gera PDF de um documento ainda incompleto ou não aprovado pelo analista.
 ---
 
 # exportar-pdf-tarefa
@@ -11,14 +11,14 @@ description: Gera a versão em PDF de um documento de tarefa já refinado e salv
   salvarem o documento final em `.md` e o analista confirmar que quer também uma
   versão em PDF.
 - Quando o analista pedir, em qualquer momento depois, para gerar (ou regerar) o
-  PDF de uma tarefa que já está salva em `tarefas/<sistema>/`.
+  PDF de uma tarefa que já está salva em `tarefas/<sistema>/<tipo>-<slug>/`.
 - **Nunca** rode esta skill por conta própria, sem o analista ter pedido ou aceito
   explicitamente — gerar PDF não é o padrão automático, é uma oferta.
 
 ## Passo 1 — Confirme qual documento
 
 - Se não estiver óbvio pelo contexto da conversa, pergunte qual arquivo `.md` em
-  `tarefas/<sistema>/` deve virar PDF.
+  `tarefas/<sistema>/<tipo>-<slug>/` deve virar PDF.
 - Se o documento ainda tiver pendência crítica em aberto na seção "Pendências", ou
   não tiver sido explicitamente aprovado pelo analista como versão final da sessão,
   avise que essas pendências também vão aparecer no PDF e confirme que ele quer
@@ -35,11 +35,11 @@ description: Gera a versão em PDF de um documento de tarefa já refinado e salv
 2. **`pandoc`**, se o harness puder rodar comando de terminal e o pandoc estiver
    instalado no ambiente:
    ```bash
-   pandoc "tarefas/<sistema>/<arquivo>.md" -o "tarefas/<sistema>/<arquivo>.pdf" --standalone -V lang=pt-BR
+   pandoc "tarefas/<sistema>/<tipo>-<slug>/<arquivo>.md" -o "tarefas/<sistema>/<tipo>-<slug>/<arquivo>.pdf" --standalone -V lang=pt-BR
    ```
    Se faltar motor de PDF (erro citando `xelatex`, `wkhtmltopdf` ou similar), tente:
    ```bash
-   pandoc "tarefas/<sistema>/<arquivo>.md" -o "tarefas/<sistema>/<arquivo>.pdf" --pdf-engine=wkhtmltopdf
+   pandoc "tarefas/<sistema>/<tipo>-<slug>/<arquivo>.md" -o "tarefas/<sistema>/<tipo>-<slug>/<arquivo>.pdf" --pdf-engine=wkhtmltopdf
    ```
    Se nenhum motor estiver disponível, informe ao analista qual dependência falta —
    não instale nada no sistema sem avisar e obter confirmação antes.
@@ -52,10 +52,12 @@ description: Gera a versão em PDF de um documento de tarefa já refinado e salv
 
 ## Passo 3 — Onde salvar o PDF
 
-Salve com o mesmo nome-base do `.md`, na mesma pasta `tarefas/<sistema>/`, trocando
-só a extensão — ex.: `tarefas/sigrh/customizacao-anexo-multiplo.md` →
-`tarefas/sigrh/customizacao-anexo-multiplo.pdf`. Confirme ao analista o caminho do
-arquivo gerado.
+Salve com o mesmo nome-base do `.md`, na mesma subpasta da tarefa
+`tarefas/<sistema>/<tipo>-<slug>/`, trocando só a extensão — ex.:
+`tarefas/sigrh/customizacao-anexo-multiplo/customizacao-anexo-multiplo.md` →
+`tarefas/sigrh/customizacao-anexo-multiplo/customizacao-anexo-multiplo.pdf`. Nunca
+salve o PDF solto direto em `tarefas/<sistema>/`, fora da subpasta da tarefa.
+Confirme ao analista o caminho do arquivo gerado.
 
 ## Guardrails
 

@@ -6,8 +6,11 @@ sistema — mesma lógica de `contextos/`:
 ```
 tarefas/
 ├── <sistema-a>/
-│   ├── customizacao-<slug-do-pedido>.md
-│   └── sustentacao-<slug-do-relato>.md
+│   ├── customizacao-<slug-do-pedido>/
+│   │   ├── customizacao-<slug-do-pedido>.md
+│   │   └── customizacao-<slug-do-pedido>.pdf
+│   └── sustentacao-<slug-do-relato>/
+│       └── sustentacao-<slug-do-relato>.md
 └── <sistema-b>/
     └── ...
 ```
@@ -18,3 +21,8 @@ sustentação, refinado pela skill `refinar-tarefa-sustentacao`. O prefixo no no
 arquivo (`customizacao-` ou `sustentacao-`) é só uma convenção para diferenciar os
 dois tipos dentro da mesma pasta; ajuste à vontade para o fluxo do seu time (ex.: um
 documento por tarefa Jira, integração com uma ferramenta externa de backlog etc.).
+
+Cada pedido/relato ganha sua própria subpasta dentro de `tarefas/<sistema>/`, nomeada
+com o mesmo slug do documento (`<tipo>-<slug>/`). Todo artefato gerado para aquela
+tarefa — o `.md`, o `.pdf` quando pedido, e qualquer outro arquivo futuro — fica
+dentro dessa subpasta, nunca solto direto em `tarefas/<sistema>/`.

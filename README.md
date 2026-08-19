@@ -7,10 +7,10 @@ suposição. Ele não escreve código, não desenha tela, não decide banco de d
 não estima prazo — isso fica para a etapa seguinte, com outro dono.
 
 Projeto **agnóstico de harness**: funciona com qualquer ferramenta de IA agêntica
-capaz de ler arquivo de contexto e navegar pastas — Claude Code, Codex, Cursor,
-Windsurf — e também, colando o conteúdo manualmente como instrução de projeto, com
-ChatGPT ou Claude.ai em modo Projeto. **Não precisa de acesso a nenhum repositório
-de sistema.**
+capaz de ler arquivo de contexto e navegar pastas. Claude Code, Codex, Cursor e
+Google Antigravity são sugestões de referência — qualquer outro harness
+equivalente também funciona. **Não precisa de acesso a nenhum repositório de
+sistema.**
 
 Pensado para operar **mais de um sistema ao mesmo tempo**: o mesmo agente pode
 refinar tarefas do Sistema A numa sessão e do Sistema B em outra, sem misturar
@@ -27,7 +27,7 @@ contexto entre eles.
 | `.agents/skills/carregar-contexto-sistema/` | Skill de onboarding: documentos brutos de um sistema → `CONTEXTO.md` curado |
 | `.agents/skills/exportar-pdf-tarefa/` | Gera a versão em PDF de uma tarefa já salva em `.md`, sob confirmação do analista |
 | `contextos/<sistema>/` | Um por sistema: `CONTEXTO.md` (curado) + `fontes/` (bruto) |
-| `tarefas/<sistema>/` | Onde os documentos finais são salvos, por sistema — sempre em `.md`, e em `.pdf` também quando pedido |
+| `tarefas/<sistema>/<tipo>-<slug>/` | Onde os documentos finais são salvos, uma subpasta por pedido/relato — sempre em `.md`, e em `.pdf` também quando pedido |
 | `exemplos/` | Passo a passo narrado, do pedido curto ao documento final |
 
 ## Duas skills de refinamento — como escolher
@@ -45,18 +45,21 @@ de colar o pedido.
 ## Como começar
 
 1. Copie esta pasta inteira (ou clone o repositório) para o seu computador.
-2. Abra o harness de IA da sua escolha dentro desta pasta (Claude Code, Codex,
-   Cursor...) — ou, usando ChatGPT/Claude.ai, crie um Projeto e cole o conteúdo de
-   `AGENTS.md` como instrução, adicionando os arquivos de `contextos/` como anexos.
+2. Abra o harness de IA da sua escolha dentro desta pasta. Claude Code, Codex,
+   Cursor e Google Antigravity são sugestões — qualquer outro harness agêntico
+   equivalente serve igualmente.
 3. Peça para configurar o primeiro sistema: *"carrega o contexto do sistema X"* — a
-   skill `carregar-contexto-sistema` entra em ação. Pode pular este passo e seguir
-   sem contexto de sistema (fica com perguntas mais genéricas).
+   skill `carregar-contexto-sistema` entra em ação. Este passo é opcional: sem ele,
+   o agente já atua como analista de requisitos/suporte generalista; a análise só
+   fica mais rica com o contexto carregado.
 4. Cole um pedido ou relato — mesmo curto e incompleto — e peça para refinar. O
    agente identifica (ou pergunta) se é customização ou sustentação, confirma o
    sistema, e conduz o fluxo de esclarecimento até o documento final.
-5. O documento final é sempre salvo como `.md` em `tarefas/<sistema>/` — o agente
-   confirma o caminho salvo e, em seguida, pergunta se você também quer uma versão
-   em PDF. Aceitando, ele gera o PDF ao lado do `.md`, no mesmo nome de arquivo.
+5. O documento final é sempre salvo como `.md` numa subpasta própria daquele
+   pedido/relato, em `tarefas/<sistema>/<tipo>-<slug>/` — o agente confirma o
+   caminho salvo e, em seguida, pergunta se você também quer uma versão em PDF.
+   Aceitando, ele gera o PDF na mesma subpasta, ao lado do `.md`, com o mesmo nome
+   de arquivo.
 
 Veja `exemplos/` para dois casos completos narrados — um de cada tipo.
 
@@ -64,11 +67,11 @@ Veja `exemplos/` para dois casos completos narrados — um de cada tipo.
 
 Não é obrigatório usar exatamente estes textos — uma frase natural também aciona a
 skill certa. Mas cada bloco já abre citando o nome da skill (`Skill:
-<nome>`) — isso torna o roteamento determinístico mesmo colando só o prompt,
-sem o resto desta página, e funciona tanto em harnesses com carregamento
-automático de skill (Claude Code, Codex, Cursor) quanto colado como instrução
-manual em ChatGPT/Claude.ai. Para começar rápido: copie o bloco da skill que
-precisa, troque o que está entre `[colchetes]` e cole direto na janela do agente.
+<nome>`) — isso torna o roteamento determinístico mesmo colando só o prompt, sem o
+resto desta página, em qualquer harness com carregamento automático de skill
+(Claude Code, Codex, Cursor, Google Antigravity ou equivalente). Para começar
+rápido: copie o bloco da skill que precisa, troque o que está entre `[colchetes]`
+e cole direto na janela do agente.
 
 ### Carregar (ou atualizar) o contexto de um sistema
 
@@ -155,15 +158,15 @@ hipótese até eu confirmar com evidência técnica.
 ### Gerar o PDF de uma tarefa já salva
 
 Aciona `exportar-pdf-tarefa`. Use depois que o `.md` final já existir em
-`tarefas/<sistema>/`.
+`tarefas/<sistema>/<tipo>-<slug>/`.
 
 ```
 Skill: exportar-pdf-tarefa (.agents/skills/exportar-pdf-tarefa/SKILL.md)
 
 Já salvamos o documento final da tarefa abaixo em .md. Quero também a versão em
-PDF, ao lado do arquivo original, com o mesmo nome.
+PDF, na mesma subpasta do arquivo original, com o mesmo nome.
 
-Arquivo: tarefas/[sistema]/[nome-do-arquivo].md
+Arquivo: tarefas/[sistema]/[tipo]-[slug]/[nome-do-arquivo].md
 
 Depois de gerar, me confirme o caminho do PDF.
 ```
@@ -189,10 +192,39 @@ sempre que o agente perguntar. Detalhes em `contextos/README.md`.
 
 ## Funciona sem nenhum sistema configurado ainda?
 
-Funciona — as perguntas ficam mais genéricas, sem nome de módulo ou tela reais. O
-ganho de ter pergunta certa em vez de suposição já existe desde o primeiro uso.
-`contextos/<sistema>/` é o que faz as perguntas ficarem cada vez mais afiadas para
-cada sistema — e cresce aos poucos, não precisa estar completo no dia 1.
+Funciona plenamente — carregar contexto é sempre opcional, nunca pré-requisito.
+Sem nenhum `CONTEXTO.md`, o agente age como um analista de requisitos / analista
+de suporte generalista, aplicando o conhecimento que essa função já carrega: boas
+práticas de levantamento de requisito, padrões comuns de sistemas de gestão, as
+perguntas que qualquer analista experiente faria. `contextos/<sistema>/` é o que
+faz a análise ficar naturalmente mais rica — o agente passa a trabalhar com
+entendimento real do que aquele sistema é e do que precisa mudar — e cresce aos
+poucos, não precisa estar completo no dia 1.
+
+## Apêndice: busca de histórico antes de refinar
+
+Antes de começar o fluxo de esclarecimento de qualquer pedido/relato, as duas
+skills de refinamento primeiro dão uma olhada em `tarefas/<sistema>/`, procurando
+alguma tarefa anterior daquele mesmo sistema — de qualquer um dos dois tipos —
+que já trate do mesmo assunto, tela, campo ou regra:
+
+- **Pedido idêntico a uma tarefa já refinada?** O agente avisa isso já no resumo
+  inicial, aponta o caminho do documento existente, e pergunta se você quer
+  reaproveitar/atualizar aquele documento em vez de abrir um do zero.
+- **Pedido relacionado, mas não igual** (mesma tela, campo ou regra parecida)? O
+  agente usa as regras já confirmadas naquela tarefa anterior como ponto de
+  partida — mas nunca como fato assumido: sempre cita a origem e pergunta se
+  aquela regra ainda vale hoje, em vez de te fazer responder de novo uma pergunta
+  que você já respondeu antes.
+- **Nada relacionado?** Segue normalmente, sem bloqueio.
+
+Essa checagem existe para não fazer o analista repetir uma resposta já dada numa
+tarefa anterior, e para não nascerem dois documentos divergentes sobre a mesma
+regra de negócio. O documento final sempre registra o resultado dessa busca num
+apêndice próprio ("Histórico de tarefas consultado") — modelo em
+`.agents/skills/refinar-requisito-customizacao/SKILL.md` e
+`.agents/skills/refinar-tarefa-sustentacao/SKILL.md`. Regra completa: `AGENTS.md`,
+seção 5.
 
 ## Um lembrete importante
 
