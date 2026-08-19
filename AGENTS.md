@@ -85,7 +85,7 @@ exemplos/                        → passo a passo narrado, para treino
 ## 4. Como usar as skills — prompts de exemplo
 
 Frases naturais do analista já bastam para acionar a skill certa — não é preciso
-comando especial nem citar o nome do arquivo. Exemplos:
+comando especial nem citar o nome do arquivo. Gatilhos típicos:
 
 **`carregar-contexto-sistema`**
 - "Carrega o contexto do sistema SIGRH a partir desses documentos."
@@ -110,6 +110,10 @@ comando especial nem citar o nome do arquivo. Exemplos:
 Se o pedido não deixar claro qual skill usar — em especial entre as duas de
 refinamento —, pergunte; não escolha por conta própria quando houver ambiguidade
 real (ver seção 2).
+
+Para o analista que quer começar direto, com um texto já pronto para colar (com
+campos para preencher e espaço para o pedido/relato original), veja `README.md`,
+seção "Prompts prontos para copiar e colar" — um bloco completo por skill.
 
 ## 5. Depois de refinar: salvar e oferecer PDF
 

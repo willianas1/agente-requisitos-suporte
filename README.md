@@ -54,19 +54,103 @@ de colar o pedido.
 
 Veja `exemplos/` para dois casos completos narrados — um de cada tipo.
 
-## Prompts de exemplo por skill
+## Prompts prontos para copiar e colar
 
-Não é preciso citar o nome da skill nem usar comando especial — frases naturais já
-bastam:
+Não é obrigatório usar exatamente estes textos — uma frase natural também aciona a
+skill certa. Mas, para começar rápido, copie o bloco da skill que precisa, troque o
+que está entre `[colchetes]` e cole direto na janela do agente.
 
-| Skill | Exemplo de prompt |
-|---|---|
-| `carregar-contexto-sistema` | "Carrega o contexto do sistema SIGRH a partir desses documentos." |
-| `refinar-requisito-customizacao` | "Refina esse pedido: o usuário quer anexar mais de um arquivo no chamado." |
-| `refinar-tarefa-sustentacao` | "Formaliza esse chamado de erro para mim." |
-| `exportar-pdf-tarefa` | "Gera o PDF dessa tarefa que acabamos de salvar." |
+### Carregar (ou atualizar) o contexto de um sistema
 
-Lista completa, com mais exemplos por skill, em `AGENTS.md`, seção 4.
+Aciona `carregar-contexto-sistema`.
+
+```
+Quero carregar (ou atualizar) o contexto do sistema abaixo neste agente.
+
+Sistema: [nome do sistema, ex.: SIGRH]
+
+Vou colar ou anexar os documentos-fonte que você deve usar para montar o
+CONTEXTO.md (manuais, prints de tela, FAQs internas, respostas antigas de dúvida
+etc.).
+
+Depois de ler tudo, ANTES de gravar qualquer coisa, me mostre:
+1. os fatos que você conseguiu confirmar, e de qual documento cada um veio;
+2. contradições entre os documentos, se houver;
+3. lacunas que um analista de requisitos ou suporte provavelmente vai precisar
+   saber e que nenhum documento ainda cobre.
+
+Só grave o CONTEXTO.md depois que eu aprovar a proposta.
+
+--- DOCUMENTOS-FONTE ---
+[cole aqui o conteúdo dos documentos, ou liste/anexe os arquivos]
+```
+
+### Refinar um pedido de algo novo (customização)
+
+Aciona `refinar-requisito-customizacao`. Use quando o pedido é sobre algo que o
+sistema **ainda não faz**.
+
+```
+Quero refinar o pedido abaixo como REQUISITO DE CUSTOMIZAÇÃO — é algo que o
+sistema ainda não faz hoje.
+
+Sistema: [nome do sistema, ex.: SIGRH]
+Quem pediu: [nome / cargo / área, se souber]
+Canal: [nº do chamado / e-mail / conversa verbal / outro]
+Data do pedido: [dd/mm/aaaa]
+
+Pedido original, na íntegra e sem edição:
+"""
+[cole aqui o texto literal do chamado, e-mail ou mensagem do usuário]
+"""
+
+Siga o fluxo normal: resuma o que você entendeu para eu confirmar, faça as
+perguntas de esclarecimento que faltarem (uma rodada de cada vez, das mais
+bloqueantes para as menos), e só monte o documento final depois que eu responder.
+Não assuma nada que eu não tiver confirmado.
+```
+
+### Refinar um relato de algo que já deveria funcionar (sustentação)
+
+Aciona `refinar-tarefa-sustentacao`. Use quando o relato é sobre algo que **já
+existe** e não está se comportando como deveria.
+
+```
+Quero refinar o relato abaixo como TAREFA DE SUSTENTAÇÃO — é algo que já deveria
+funcionar de um jeito e não está.
+
+Sistema: [nome do sistema, ex.: SIGRH]
+Quem relatou: [nome / cargo / área, se souber]
+Canal: [nº do chamado / e-mail / conversa verbal / outro]
+Data do relato: [dd/mm/aaaa]
+Módulo/tela, se souber: [ex.: Folha de Pagamento > Rescisão]
+
+Relato original, na íntegra e sem edição:
+"""
+[cole aqui o texto literal do chamado, e-mail ou mensagem do usuário]
+"""
+
+Siga o fluxo normal: resuma o sintoma com suas próprias palavras, sem nomear uma
+causa ainda, faça as perguntas de esclarecimento priorizadas, e só monte o
+documento final depois que eu responder. Toda hipótese de causa fica marcada como
+hipótese até eu confirmar com evidência técnica.
+```
+
+### Gerar o PDF de uma tarefa já salva
+
+Aciona `exportar-pdf-tarefa`. Use depois que o `.md` final já existir em
+`tarefas/<sistema>/`.
+
+```
+Já salvamos o documento final da tarefa abaixo em .md. Quero também a versão em
+PDF, ao lado do arquivo original, com o mesmo nome.
+
+Arquivo: tarefas/[sistema]/[nome-do-arquivo].md
+
+Depois de gerar, me confirme o caminho do PDF.
+```
+
+Mais contexto sobre quando cada skill é acionada: `AGENTS.md`, seção 4.
 
 ## Geração de PDF
 
