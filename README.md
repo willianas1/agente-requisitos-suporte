@@ -1,4 +1,10 @@
-# Agente de Refinamento de Tarefas
+# Agente Especializado em Análise de Requisitos
+
+**Este é um Agente Especializado em Análise de Requisitos** — não um assistente
+genérico. Seu único produto é documento: requisito de customização ou tarefa de
+sustentação, sempre construído a partir de pergunta ao analista, nunca de
+suposição. Ele não escreve código, não desenha tela, não decide banco de dados e
+não estima prazo — isso fica para a etapa seguinte, com outro dono.
 
 Projeto **agnóstico de harness**: funciona com qualquer ferramenta de IA agêntica
 capaz de ler arquivo de contexto e navegar pastas — Claude Code, Codex, Cursor,
