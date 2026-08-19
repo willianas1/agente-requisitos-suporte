@@ -19,10 +19,13 @@
 >   comportamento inconsistente).
 > - `.agents/skills/carregar-contexto-sistema/SKILL.md` — criar, adicionar ou
 >   atualizar o contexto de um sistema específico.
+> - `.agents/skills/exportar-pdf-tarefa/SKILL.md` — gerar a versão em PDF de um
+>   documento de tarefa já salvo em `.md`, depois que o analista confirmar que quer
+>   essa versão (ver seção 5).
 >
 > Se não estiver claro qual das duas primeiras skills usar, pergunte ao analista:
 > *"isso é um pedido de algo que ainda não existe, ou um problema com algo que já
-> deveria funcionar?"*
+> deveria funcionar?"* Exemplos de prompts para cada skill: seção 4.
 
 ---
 
@@ -66,11 +69,12 @@ instância do harness de IA em uso, apontando para esta mesma pasta.
 
 ```
 AGENTS.md / CLAUDE.md            → este contexto raiz
-.agents/skills/                  → os três fluxos de trabalho (skills)
+.agents/skills/                  → os quatro fluxos de trabalho (skills)
 contextos/<sistema>/CONTEXTO.md  → conhecimento curado de um sistema
 contextos/<sistema>/fontes/      → documentos brutos desse sistema (entrada)
 tarefas/<sistema>/               → documentos já produzidos (saída) — requisito de
-                                    customização ou tarefa de sustentação
+                                    customização ou tarefa de sustentação, cada um
+                                    em `.md` e, se pedido ao analista, também `.pdf`
 exemplos/                        → passo a passo narrado, para treino
 ```
 
@@ -78,7 +82,55 @@ exemplos/                        → passo a passo narrado, para treino
 > carrega automaticamente. Harnesses que leem `AGENTS.md` diretamente (Codex,
 > Cursor, Windsurf) não precisam dele.
 
-## 4. Guardrails gerais
+## 4. Como usar as skills — prompts de exemplo
+
+Frases naturais do analista já bastam para acionar a skill certa — não é preciso
+comando especial nem citar o nome do arquivo. Exemplos:
+
+**`carregar-contexto-sistema`**
+- "Carrega o contexto do sistema SIGRH a partir desses documentos."
+- "Atualiza o CONTEXTO.md do SIGA, anexei um manual novo."
+- "Esse sistema ainda não tem contexto configurado aqui, cria um do zero."
+
+**`refinar-requisito-customizacao`**
+- "Refina esse pedido: o usuário quer anexar mais de um arquivo no chamado."
+- "Transforma esse e-mail em requisito com história de usuário."
+- "Prepara a especificação funcional a partir desse pedido de melhoria."
+
+**`refinar-tarefa-sustentacao`**
+- "Formaliza esse chamado de erro para mim."
+- "O relatório mostra um total e a tela mostra outro — refina isso como
+  sustentação."
+- "Prepara a investigação a partir desse relato de lentidão."
+
+**`exportar-pdf-tarefa`**
+- "Gera o PDF dessa tarefa que acabamos de salvar."
+- "Quero uma versão em PDF do requisito X que já está em `tarefas/sigrh/`."
+
+Se o pedido não deixar claro qual skill usar — em especial entre as duas de
+refinamento —, pergunte; não escolha por conta própria quando houver ambiguidade
+real (ver seção 2).
+
+## 5. Depois de refinar: salvar e oferecer PDF
+
+Isto é comportamento obrigatório das duas skills de refinamento, não um extra
+opcional de cada execução:
+
+1. Todo documento final produzido por `refinar-requisito-customizacao` ou
+   `refinar-tarefa-sustentacao` **é sempre salvo como arquivo `.md`** em
+   `tarefas/<sistema>/` — nunca fica só exibido na conversa. Confirme ao analista o
+   caminho onde foi salvo.
+2. Logo em seguida, **sempre ofereça** gerar também uma versão em PDF do mesmo
+   documento — pergunta explícita, sem pressupor a resposta.
+3. Se o analista aceitar, aplique
+   `.agents/skills/exportar-pdf-tarefa/SKILL.md` para gerar o PDF a partir do `.md`
+   recém-salvo, usando o recurso disponível no harness atual (capacidade nativa de
+   gerar PDF/documento do próprio ambiente, ou `pandoc` via terminal, nessa ordem de
+   preferência — detalhes na skill).
+4. Nunca gere PDF de um documento ainda incompleto, com pendência crítica ainda não
+   assumida pelo analista, ou sem essa confirmação explícita.
+
+## 6. Guardrails gerais
 
 - Não sugira solução técnica, estrutura de tela ou de banco — isso é trabalho de
   outra etapa, com outro dono.

@@ -19,8 +19,9 @@ contexto entre eles.
 | `.agents/skills/refinar-requisito-customizacao/` | Pedido de algo **novo** → documento de requisito com histórias de usuário |
 | `.agents/skills/refinar-tarefa-sustentacao/` | Relato de algo que **já deveria funcionar** e não está → documento de investigação/resolução |
 | `.agents/skills/carregar-contexto-sistema/` | Skill de onboarding: documentos brutos de um sistema → `CONTEXTO.md` curado |
+| `.agents/skills/exportar-pdf-tarefa/` | Gera a versão em PDF de uma tarefa já salva em `.md`, sob confirmação do analista |
 | `contextos/<sistema>/` | Um por sistema: `CONTEXTO.md` (curado) + `fontes/` (bruto) |
-| `tarefas/<sistema>/` | Onde os documentos finais são salvos, por sistema |
+| `tarefas/<sistema>/` | Onde os documentos finais são salvos, por sistema — sempre em `.md`, e em `.pdf` também quando pedido |
 | `exemplos/` | Passo a passo narrado, do pedido curto ao documento final |
 
 ## Duas skills de refinamento — como escolher
@@ -47,8 +48,35 @@ de colar o pedido.
 4. Cole um pedido ou relato — mesmo curto e incompleto — e peça para refinar. O
    agente identifica (ou pergunta) se é customização ou sustentação, confirma o
    sistema, e conduz o fluxo de esclarecimento até o documento final.
+5. O documento final é sempre salvo como `.md` em `tarefas/<sistema>/` — o agente
+   confirma o caminho salvo e, em seguida, pergunta se você também quer uma versão
+   em PDF. Aceitando, ele gera o PDF ao lado do `.md`, no mesmo nome de arquivo.
 
 Veja `exemplos/` para dois casos completos narrados — um de cada tipo.
+
+## Prompts de exemplo por skill
+
+Não é preciso citar o nome da skill nem usar comando especial — frases naturais já
+bastam:
+
+| Skill | Exemplo de prompt |
+|---|---|
+| `carregar-contexto-sistema` | "Carrega o contexto do sistema SIGRH a partir desses documentos." |
+| `refinar-requisito-customizacao` | "Refina esse pedido: o usuário quer anexar mais de um arquivo no chamado." |
+| `refinar-tarefa-sustentacao` | "Formaliza esse chamado de erro para mim." |
+| `exportar-pdf-tarefa` | "Gera o PDF dessa tarefa que acabamos de salvar." |
+
+Lista completa, com mais exemplos por skill, em `AGENTS.md`, seção 4.
+
+## Geração de PDF
+
+A skill `exportar-pdf-tarefa` converte o `.md` de uma tarefa já salva para PDF,
+tentando nesta ordem: (1) a capacidade nativa de gerar PDF/documento do harness em
+uso, se houver; (2) `pandoc` via terminal, se instalado no ambiente; (3), na falta
+das duas, o agente avisa e sugere exportar manualmente (VS Code com extensão
+Markdown PDF, Word/Google Docs). O PDF nunca é gerado sem confirmação explícita do
+analista, nem de um documento ainda com pendência crítica não assumida. Detalhes em
+`.agents/skills/exportar-pdf-tarefa/SKILL.md`.
 
 ## Operando dois (ou mais) sistemas em paralelo
 

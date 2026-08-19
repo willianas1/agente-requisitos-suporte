@@ -125,6 +125,11 @@ Salve o documento final em `tarefas/<sistema>/customizacao-<slug-do-pedido>.md`,
 criando a pasta do sistema em `tarefas/` se ainda não existir. Sugira o slug a
 partir do título do requisito e confirme com o analista antes de gravar.
 
+Depois de gravar, confirme ao analista o caminho do arquivo salvo e pergunte se ele
+quer também uma versão em PDF do documento. Se a resposta for sim, aplique
+`.agents/skills/exportar-pdf-tarefa/SKILL.md` para gerá-la a partir do `.md`
+recém-salvo.
+
 ## Guardrails
 
 - Nunca declare um requisito "completo" enquanto houver pendência crítica em
